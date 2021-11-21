@@ -15,7 +15,6 @@ public class PersonServiceImpl implements IPersonService {
     @Autowired
     private IPersonDao iPersonDao;
 
-
     @Override
     @Transactional(readOnly = true)
     public List<Person> findAll() {
@@ -23,9 +22,25 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
+    public void save(Person person) {
+        iPersonDao.save(person);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Person findPersonByEmail(Person person) {
+        return (Person) iPersonDao.findByEmail(person.getEmail());
+    }
+
+    @Override
+    public Person checkPersonLogin(Person person) {
+        return (Person) iPersonDao.findByEmailAndPassword(person.getEmail(), person.getPassword());
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Person findPerson(Person person) {
-        return (Person) iPersonDao.findByUID(person.getUid());
+        return (Person) iPersonDao.findByUid(person.getUid());
     }
 
     @Override
@@ -56,5 +71,11 @@ public class PersonServiceImpl implements IPersonService {
     @Transactional
     public void deletePerson(Long idPerson) {
         iPersonDao.deleteById(idPerson);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllPerson() {
+        iPersonDao.deleteAll();
     }
 }

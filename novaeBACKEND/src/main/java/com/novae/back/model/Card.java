@@ -13,6 +13,18 @@ import java.util.Date;
 @Entity
 @Table (name = "card")
 public class Card implements Serializable {
+
+	/**
+	 * Table Values
+	 * id_card: Autoincrement, Long, Primary Key
+	 * num_card: String, unique
+	 * name_card: String
+	 * cvv: String
+	 * expired_date: String
+	 * status: Boolean
+	 * created_at: Date
+	 * person_id: Foreign Key, Long, Many to One
+	 */
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,32 +43,26 @@ public class Card implements Serializable {
 	@Column (name = "expired_date")
 	private String expiredDate;
 
+	@Column (name = "franchise")
+	private String franchise;
+
+	@Column (name = "status")
+	private boolean status;
+
 	@Column (name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+
+	@Column(name = "person_id")
+	private Long personId;
 
 	@PrePersist
 	public void prePersist() {
 		createAt = new Date();
 	}
-	
-	@OneToOne
-	@JoinColumn (name = "franchise_id_franchise")
-	private Franchise franchise;
-	
-	@ManyToOne
-	@JoinColumn (name = "person_id_person")
-	private Person person;
-	
-	public Card(String numCard, String nameCard, String cvv, String expiredDate, Franchise franchise, Person person) {
-		super();
-		this.numCard = numCard;
-		this.nameCard = nameCard;
-		this.cvv = cvv;
-		this.expiredDate = expiredDate;
-		this.createAt = createAt;
-		this.franchise = franchise;
-		this.person = person;
+
+	public Card() {
+
 	}
 
 	public Long getIdCard() {
@@ -99,28 +105,36 @@ public class Card implements Serializable {
 		this.expiredDate = expiredDate;
 	}
 
+	public String getFranchise() {
+		return franchise;
+	}
+
+	public void setFranchise(String franchise) {
+		this.franchise = franchise;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 	public Date getCreateAt() {
 		return createAt;
 	}
 
-	public void setCreateAt(Date expiredDate) {
-		this.createAt = expiredDate;
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
 	}
 
-	public Franchise getFranchise() {
-		return franchise;
+	public Long getPersonId() {
+		return personId;
 	}
 
-	public void setFranchise(Franchise franchise) {
-		this.franchise = franchise;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 
 	private static final long serialVersionUID = 1l;

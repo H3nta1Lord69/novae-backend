@@ -9,9 +9,11 @@ import java.util.Optional;
 
 public interface IPersonDao extends CrudRepository<Person, Long> {
 
-    public Person findByUID(String uid);
+    public Person findByUid(String uid);
 
-    public List<Person> findByName(String namePerson);
+    public Person findByEmail(String email);
+
+    public Person findByEmailAndPassword(String email, String password);
 
     public Optional<Person> findById(Long idPerson);
 

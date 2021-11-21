@@ -13,9 +13,15 @@ public interface ICardService {
 
     public List<Card> findAll();
 
+    public void save(Card card);
+
     public Card findCard(Card card);
 
     public Card findById(Long idCard);
+
+    public Card findByFranchise(Card card);
+
+    public List<Card> getPersonCards(Long id);
 
     public Optional<Card> findCardById(Long idCard);
 
@@ -25,6 +31,6 @@ public interface ICardService {
 
     public void deleteCard(Long idCard);
 
-
+    public void deleteAllCard();
 
 }

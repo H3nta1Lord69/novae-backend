@@ -1,25 +1,30 @@
 package com.novae.back.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
  * @author Carlos Garcia
- * Declaración tabla Card
+ * Declaración tabla Person
  *
  */
 
 @Entity
 @Table (name = "person")
-public class Person {
+public class Person implements Serializable {
+
+	/**
+	 * Table Values
+	 * id_person: Autoincrement, Long, Primary Key
+	 * name_person: String
+	 * uid (User identification): String, Unique
+	 */
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "id_person")
 	private Long idPerson;
 	
@@ -29,11 +34,19 @@ public class Person {
 	@Column (name = "uid", unique = true)
 	private String uid;
 
-	public Person(String namePerson, String uid) {
-		super();
-		this.namePerson = namePerson;
-		this.uid = uid;
-	}
+	@Column (name = "email", unique = true)
+	private String email;
+
+	@Column (name = "password")
+	private String password;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "person_id", referencedColumnName = "id_person")
+	private List<Card> card = new ArrayList<>();
+
+	/**
+	 * Getters & Setters
+	 */
 
 	public Long getIdPerson() {
 		return idPerson;
@@ -59,4 +72,29 @@ public class Person {
 		this.uid = uid;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<Card> getCard() {
+		return card;
+	}
+
+	public void setCard(List<Card> card) {
+		this.card = card;
+	}
+
+	private static final long serialVersionUID = 1l;
 }

@@ -12,8 +12,10 @@ public interface ICardDao extends CrudRepository<Card, Long> {
 
     public Card findByNumCard(String numCard);
 
-    public List<Card> findByNumCardAndName(String numCard, String name);
+    public Card findByFranchise(String franchise);
 
     public Optional<Card> findById(Long idCard);
+
+    public List<Card> findByPersonId(Long id);
 
 }

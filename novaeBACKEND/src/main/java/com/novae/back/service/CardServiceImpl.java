@@ -2,7 +2,6 @@ package com.novae.back.service;
 
 import com.novae.back.model.Card;
 import com.novae.back.repository.ICardDao;
-import com.novae.back.service.ICardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,12 @@ public class CardServiceImpl implements ICardService {
     }
 
     @Override
+    @Transactional
+    public void save(Card card) {
+        iCardDao.save(card);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Card findCard(Card card) {
         return (Card) iCardDao.findByNumCard(card.getNumCard());
@@ -32,6 +37,18 @@ public class CardServiceImpl implements ICardService {
     @Transactional(readOnly = true)
     public Card findById(Long idCard) {
         return iCardDao.findById(idCard).orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Card findByFranchise(Card card) {
+        return (Card) iCardDao.findByFranchise(card.getFranchise());
+    }
+
+    @Override
+    @Transactional
+    public List<Card> getPersonCards(Long id) {
+        return (List<Card>) iCardDao.findByPersonId(id);
     }
 
     @Override
@@ -56,5 +73,11 @@ public class CardServiceImpl implements ICardService {
     @Transactional
     public void deleteCard(Long idCard) {
         iCardDao.deleteById(idCard);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllCard() {
+        iCardDao.deleteAll();
     }
 }

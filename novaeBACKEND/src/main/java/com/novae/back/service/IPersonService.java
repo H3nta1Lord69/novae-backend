@@ -9,6 +9,12 @@ public interface IPersonService {
 
     public List<Person> findAll();
 
+    public void save(Person person);
+
+    public Person findPersonByEmail(Person person);
+
+    public Person checkPersonLogin(Person person);
+
     public Person findPerson(Person person);
 
     public Person findById(Long idPerson);
@@ -20,5 +26,7 @@ public interface IPersonService {
     public void deletePerson(Person person);
 
     public void deletePerson(Long idPerson);
+
+    public void deleteAllPerson();
 
 }
