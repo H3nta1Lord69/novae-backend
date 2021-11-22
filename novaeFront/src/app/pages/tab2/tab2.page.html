@@ -1,0 +1,59 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" color="danger">
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="top-20">
+    <!--     <ion-col size="12" text-center>
+      <img src="assets/avatars/{{ usuario.avatar }}" class="img-avatar">
+    </ion-col>
+ -->
+  </ion-row>
+
+  <ion-row class="top-20">
+    <ion-col size="12" text-center>
+      <ion-label>
+        <h1>Editar Tarjeta</h1>
+      </ion-label>
+    </ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="updatecard()" #fActualizar>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>
+            <ion-label>Fecha Expiracion:</ion-label>
+            <ion-input
+              name="date"
+              type="text"
+              [(ngModel)]="cardInput.expiredDate"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Estado Tarjeta:</ion-label>
+            <ion-select name="status" [(ngModel)]="cardInput.status" required>
+              <ion-select-option value="1">Activo</ion-select-option>
+              <ion-select-option value="0">Inactivo</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center>
+        <ion-button type="submit" color="tertiary" shape="round">
+          Editar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

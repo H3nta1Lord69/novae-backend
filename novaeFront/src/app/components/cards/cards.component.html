@@ -1,0 +1,17 @@
+<ion-card *ngFor="let card of cardsArray">
+  <ion-card-header color="dark">
+    <ion-card-title>Tarjeta {{card.franchise}}</ion-card-title>
+  </ion-card-header>
+  <ion-list>
+    <ion-item>
+      <ion-label>{{ card.numCard }}</ion-label>
+      <ion-label>{{ card.expiredDate }}</ion-label>
+      <ion-button color="light" (click)="deleteCard(card.idCard)">
+        <ion-icon src="../../assets/icon/trash-outline.svg"></ion-icon>
+      </ion-button>
+      <ion-button color="danger" (click)="editCard(card)">
+        <ion-icon src="/assets/icon/create-outline.svg"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-card>

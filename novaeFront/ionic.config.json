@@ -1,0 +1,7 @@
+{
+  "name": "Novae Frontend",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
