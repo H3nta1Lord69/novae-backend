@@ -61,10 +61,16 @@ public class Card implements Serializable {
 		createAt = new Date();
 	}
 
+	/**
+	 * Empty Constructor
+	 */
 	public Card() {
 
 	}
 
+	/**
+	 * Individual Getters and Setters
+	 */
 	public Long getIdCard() {
 		return idCard;
 	}

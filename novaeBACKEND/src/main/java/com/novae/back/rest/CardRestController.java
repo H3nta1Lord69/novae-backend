@@ -2,15 +2,18 @@ package com.novae.back.rest;
 
 import com.novae.back.model.Card;
 import com.novae.back.model.Person;
+import com.novae.back.security.Encrypt;
 import com.novae.back.service.ICardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/card")
 public class CardRestController {
 
@@ -20,12 +23,27 @@ public class CardRestController {
     @GetMapping("/get-card")
     @ResponseStatus(HttpStatus.OK)
     public List<Card> getCards() {
-        return cardService.findAll();
+        Encrypt encrypt = new Encrypt();
+        List<Card> cardList = new ArrayList<>();
+        List<Card> cards = cardService.findAll();
+        for (Card card : cards) {
+            try {
+                String passCifra = card.getNumCard();
+                String passDecrypt = encrypt.decrypt(passCifra);
+                card.setNumCard(passDecrypt);
+                cardList.add(card);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return cardList;
     }
 
     @PostMapping("/create")
     public ResponseEntity<Void> addCard(@RequestBody Card card) {
         if(cardService.findCard(card) == null) {
+            Encrypt encrypt = new Encrypt();
+            card.setNumCard(encrypt.encrypt(card.getNumCard()));
             cardService.save(card);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } else {

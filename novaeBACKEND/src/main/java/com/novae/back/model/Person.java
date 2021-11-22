@@ -21,6 +21,9 @@ public class Person implements Serializable {
 	 * id_person: Autoincrement, Long, Primary Key
 	 * name_person: String
 	 * uid (User identification): String, Unique
+	 * email: String, Unique
+	 * password: String
+	 * person_id: Primary Key, OneToMany relation
 	 */
 	
 	@Id
@@ -45,7 +48,14 @@ public class Person implements Serializable {
 	private List<Card> card = new ArrayList<>();
 
 	/**
-	 * Getters & Setters
+	 * Empty Constructor
+	 */
+	public Person(){
+
+	}
+
+	/**
+	 * Individual Getters & Setters
 	 */
 
 	public Long getIdPerson() {

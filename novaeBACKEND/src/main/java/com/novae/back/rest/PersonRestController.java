@@ -11,6 +11,7 @@ import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/person")
 public class PersonRestController {
 
