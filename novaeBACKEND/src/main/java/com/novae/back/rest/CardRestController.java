@@ -36,7 +36,7 @@ public class CardRestController {
                 e.printStackTrace();
             }
         }
-        return cardList;
+        return cards;
     }
 
     @PostMapping("/create")
@@ -73,10 +73,12 @@ public class CardRestController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateCard(@PathVariable (value = "id") Long id, @RequestBody Card card) {
-        Card cardDb = null;
-        cardDb = cardService.findById(id);
+        System.out.println(id);
+        Card cardDb = cardService.findById(id);
+        System.out.println(cardDb);
         if(cardDb != null) {
             cardDb.setStatus(card.getStatus());
+            System.out.println(card.getExpiredDate());
             cardDb.setExpiredDate(card.getExpiredDate());
             cardService.updateCard(cardDb);
             return new ResponseEntity<>(cardDb, HttpStatus.OK);

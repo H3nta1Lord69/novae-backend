@@ -1,6 +1,8 @@
 package com.novae.back.rest;
 
+import com.novae.back.model.Card;
 import com.novae.back.model.Person;
+import com.novae.back.security.Encrypt;
 import com.novae.back.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,7 +29,7 @@ public class PersonRestController {
 
     @PostMapping("/create")
     public ResponseEntity<Void> addPerson(@RequestBody Person person) {
-        if(iPersonService.findPerson(person) == null) {
+        if (iPersonService.findPerson(person) == null) {
             iPersonService.save(person);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } else {
@@ -36,18 +39,37 @@ public class PersonRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginPerson(@RequestBody Person person) {
+        Encrypt encrypt = new Encrypt();
+
         Person personDb = iPersonService.checkPersonLogin(person);
-        if(personDb != null) {
+
+        if (personDb != null) {
+            try {
+                List<Card> cardsReturn = new ArrayList<>();
+                List<Card> cards = personDb.getCard();
+                System.out.println(cards);
+                for (Card card : cards) {
+                    String numberCard = encrypt.decrypt(card.getNumCard());
+                    System.out.println(numberCard);
+                    card.setNumCard(numberCard);
+                    cardsReturn.add(card);
+                }
+                personDb.setCard(cardsReturn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return new ResponseEntity<>(personDb, HttpStatus.OK);
         } else {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
+
     }
 
     @PostMapping("/find-person")
     public ResponseEntity<?> findPerson(@RequestBody Person person) {
         Person personDb = iPersonService.findPersonByEmail(person);
-        if(personDb != null) {
+        if (personDb != null) {
             return new ResponseEntity<>(personDb, HttpStatus.OK);
         } else {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -55,7 +77,7 @@ public class PersonRestController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatePerson(@PathVariable (value = "id") Long id, @RequestBody Person person) {
+    public ResponseEntity<?> updatePerson(@PathVariable(value = "id") Long id, @RequestBody Person person) {
         Person personDb = null;
         personDb = iPersonService.findById(id);
         if (personDb != null) {
